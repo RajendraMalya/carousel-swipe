@@ -1,6 +1,9 @@
 import React from 'react';
-import Carousel from "react-material-ui-carousel";
-import './style/Example.scss';
+import Carousel from "react-material-ui-carousel"
+import autoBind from "auto-bind"
+import './style/Example.css';
+import image1 from "./assets/images/1.jpg";
+
 import {
     Card,
     CardContent,
@@ -10,6 +13,10 @@ import {
     Button,
     Checkbox,
     FormControlLabel,
+    Radio,
+    RadioGroup,
+    FormLabel,
+    Slider
 } from '@material-ui/core';
 
 function Banner(props) {
@@ -49,7 +56,7 @@ function Banner(props) {
                     title={item.Name}
                 >
                     <Typography className="MediaCaption">
-                        {item.name}
+                        {item.Name}
                     </Typography>
                 </CardMedia>
 
@@ -84,15 +91,11 @@ const items = [
         Items: [
             {
                 Name: "Macbook Pro",
-                Price:"10000",
-                Category:"EC",
-                Image: "./assets/images/1.jpg"
+                Image: {image1}
             },
             {
                 Name: "iPhone",
-                Price:"10000",
-                Category:"EC",
-                Image: "./assets/images/1.jpg"
+                Image: {image1}
             }
         ]
     },
@@ -103,15 +106,11 @@ const items = [
         Items: [
             {
                 Name: "Washing Machine WX9102",
-                Price:"10000",
-                Category:"EC",
-                Image: "./assets/images/1.jpg"
+                Image: {image1}
             },
             {
                 Name: "Learus Vacuum Cleaner",
-                Price:"10000",
-                Category:"EC",
-                Image: "./assets/images/1.jpg"
+                Image: {image1}
             }
         ]
     },
@@ -122,35 +121,31 @@ const items = [
         Items: [
             {
                 Name: "Living Room Lamp",
-                Price:"10000",
-                Category:"EC",
-                Image: "https://source.unsplash.com/featured/?lamp"
+                Image: {image1}
             },
             {
                 Name: "Floral Vase",
-                Price:"10000",
-                Category:"EC",
-                Image: "https://source.unsplash.com/featured/?vase"
+                Image: {image1}
             }
         ]
     }
 ]
 
-class CarouselSlider extends React.Component {
+class BannerExample extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            autoPlay: false,
-            timer: 0,
+            autoPlay: true,
+            timer: 500,
             animation: "fade",
             indicators: true,
-            timeout: 0,
+            timeout: 500,
             navButtonsAlwaysVisible: false,
             navButtonsAlwaysInvisible: false
         }
 
-       
+        autoBind(this);
     }
 
     toggleAutoPlay() {
@@ -159,7 +154,17 @@ class CarouselSlider extends React.Component {
         })
     }
 
-    
+    toggleIndicators() {
+        this.setState({
+            indicators: !this.state.indicators
+        })
+    }
+
+    toggleNavButtonsAlwaysVisible() {
+        this.setState({
+            navButtonsAlwaysVisible: !this.state.navButtonsAlwaysVisible
+        })
+    }
 
     toggleNavButtonsAlwaysInvisible() {
         this.setState({
@@ -167,18 +172,22 @@ class CarouselSlider extends React.Component {
         })
     }
 
-    
+    changeAnimation(event) {
+        this.setState({
+            animation: event.target.value
+        })
+    }
+
+    changeTimeout(event, value) {
+        this.setState({
+            timeout: value
+        })
+    }
 
     render() {
         return (
             <div style={{ marginTop: "50px", color: "#494949" }}>
-                <h2><FormControlLabel
-                    control={
-                        <Checkbox onChange={this.toggleAutoPlay} checked={this.state.autoPlay} value="Filter"
-                            color="primary" />
-                    }
-                    label="Auto-play"
-                /></h2>
+                <h2>Example: eBay&trade; style</h2>
 
                 <Carousel
                     className="Example"
@@ -201,14 +210,65 @@ class CarouselSlider extends React.Component {
                 </Carousel>
 
 
-               
-                
+                <FormLabel component="legend">Options</FormLabel>
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={this.toggleAutoPlay} checked={this.state.autoPlay} value="autoplay"
+                            color="primary" />
+                    }
+                    label="Auto-play"
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={this.toggleIndicators} checked={this.state.indicators} value="indicators"
+                            color="primary" />
+                    }
+                    label="Indicators"
+                />
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={this.toggleNavButtonsAlwaysVisible} checked={this.state.navButtonsAlwaysVisible} value="indicators" color="primary" />
+                    }
+                    label="NavButtonsAlwaysVisible"
+                />
 
-                
+                <FormControlLabel
+                    control={
+                        <Checkbox onChange={this.toggleNavButtonsAlwaysInvisible} checked={this.state.toggleNavButtonsAlwaysInvisible} value="indicators" color="primary" />
+                    }
+                    label="NavButtonsAlwaysInvisible"
+                />
 
-                
+                <FormControlLabel
+                    control={
+                        <RadioGroup name="animation" value={this.state.animation} onChange={this.changeAnimation} row
+                            style={{ marginLeft: "10px" }}>
+                            <FormControlLabel value="fade" control={<Radio color="primary" />} label="Fade" />
+                            <FormControlLabel value="slide" control={<Radio color="primary" />} label="Slide" />
+                        </RadioGroup>
+                    }
+                />
 
-                
+                <FormControlLabel
+                    control={
+                        <div style={{ width: 300 }}>
+                            <Typography id="discrete-slider" gutterBottom>
+                                Animation Duration (Timeout) in ms
+                            </Typography>
+                            <Slider
+                                defaultValue={500}
+                                getAriaValueText={() => `${this.state.timeout}ms`}
+                                aria-labelledby="discrete-slider"
+                                valueLabelDisplay="auto"
+                                step={100}
+                                marks
+                                min={100}
+                                max={2000}
+                                onChange={this.changeTimeout}
+                            />
+                        </div>
+                    }
+                />
 
             </div>
 
@@ -216,4 +276,4 @@ class CarouselSlider extends React.Component {
     }
 }
 
-export default CarouselSlider;
+export default BannerExample;
