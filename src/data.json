@@ -1,0 +1,54 @@
+[
+    {
+        "Name": "Electronics",
+        "contentPosition": "left",
+        "Category": "EC",
+        "Items": [
+            {
+                "Name": "Macbook Pro",
+                "Price": "10000",
+                "Image": "/assets/images/1.jpg"
+            },
+            {
+                "Name": "iPhone",
+                "Price": "10000",
+                "Image": "./assets/images/1.jpg"
+            }
+        ]
+    },
+    {
+        "Name": "Home Appliances",
+        "contentPosition": "left",
+        "Category": "HOME",
+        "Items": [
+            {
+                "Name": "Washing Machine WX9102",
+                "Price": "10000",
+                "Image": "./assets/images/1.jpg"
+            },
+            {
+                "Name": "Learus Vacuum Cleaner",
+                "Price": "10000",
+
+                "Image": "./assets/images/1.jpg"
+            }
+        ]
+    },
+    {
+        "Name": "Decoratives",
+        "contentPosition": "left",
+        "Category": "DEC",
+        "Items": [
+            {
+                "Name": "Living Room Lamp",
+                "Price": "10000",
+                "Image": "https://source.unsplash.com/featured/?lamp"
+            },
+            {
+                "Name": "Floral Vase",
+                "Price": "10000",
+                "Image": "https://source.unsplash.com/featured/?vase"
+            }
+        ]
+    }
+]
