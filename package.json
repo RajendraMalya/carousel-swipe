@@ -5,18 +5,13 @@
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
+    "build": "webpack -p",
+    "node-sass": "^4.14.1",
     "react": "^17.0.1",
-    "react-bootstrap-carousel": "^4.1.0",
     "react-dom": "^17.0.1",
     "react-material-ui-carousel": "^2.1.1",
     "react-scripts": "4.0.1",
-    "styled-components": "^5.2.1",
-    "web-vitals": "^0.2.4",
-    "start": "webpack-dev-server",
-"build": "webpack -p"
+    "start": "webpack-dev-server"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,11 +26,6 @@
     ]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

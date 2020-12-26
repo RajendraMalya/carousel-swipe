@@ -7,9 +7,11 @@ import {
     CardMedia,
     Typography,
     Grid,
-    Button,
     Checkbox,
     FormControlLabel,
+    InputLabel,
+    Select,
+    MenuItem 
 } from '@material-ui/core';
 
 function Banner(props) {
@@ -29,10 +31,6 @@ function Banner(props) {
                 <Typography className="Caption">
                     {props.item.Caption}
                 </Typography>
-
-                <Button variant="outlined" className="ViewButton">
-                    View Now
-                </Button>
             </CardContent>
         </Grid>
     )
@@ -48,9 +46,16 @@ function Banner(props) {
                     image={item.Image}
                     title={item.Name}
                 >
-                    <Typography className="MediaCaption">
-                        {item.name}
-                    </Typography>
+                    <CardContent className="Content">
+                        <Typography className="Title">
+                            {item.Name}
+                        </Typography>
+
+                        <Typography className="Caption">
+                            {item.price}
+                        </Typography>
+
+                    </CardContent>
                 </CardMedia>
 
             </Grid>
@@ -76,65 +81,9 @@ function Banner(props) {
     )
 }
 
-const items = [
-    {
-        Name: "Electronics",
-        Caption: "Electrify your friends!",
-        contentPosition: "left",
-        Items: [
-            {
-                Name: "Macbook Pro",
-                Price:"10000",
-                Category:"EC",
-                Image: "./assets/images/1.jpg"
-            },
-            {
-                Name: "iPhone",
-                Price:"10000",
-                Category:"EC",
-                Image: "./assets/images/1.jpg"
-            }
-        ]
-    },
-    {
-        Name: "Home Appliances",
-        Caption: "Say no to manual home labour!",
-        contentPosition: "middle",
-        Items: [
-            {
-                Name: "Washing Machine WX9102",
-                Price:"10000",
-                Category:"EC",
-                Image: "./assets/images/1.jpg"
-            },
-            {
-                Name: "Learus Vacuum Cleaner",
-                Price:"10000",
-                Category:"EC",
-                Image: "./assets/images/1.jpg"
-            }
-        ]
-    },
-    {
-        Name: "Decoratives",
-        Caption: "Give style and color to your living room!",
-        contentPosition: "right",
-        Items: [
-            {
-                Name: "Living Room Lamp",
-                Price:"10000",
-                Category:"EC",
-                Image: "https://source.unsplash.com/featured/?lamp"
-            },
-            {
-                Name: "Floral Vase",
-                Price:"10000",
-                Category:"EC",
-                Image: "https://source.unsplash.com/featured/?vase"
-            }
-        ]
-    }
-]
+
+
+
 
 class CarouselSlider extends React.Component {
     constructor(props) {
@@ -147,38 +96,93 @@ class CarouselSlider extends React.Component {
             indicators: true,
             timeout: 0,
             navButtonsAlwaysVisible: false,
-            navButtonsAlwaysInvisible: false
+            navButtonsAlwaysInvisible: false,
+            category:null,
+            newItems:[],
+            items:[
+                {
+                    Name: "Electronics",
+                    Caption: "Electrify your friends!",
+                    contentPosition: "left",
+                    Category: "EC",
+                    Items: [
+                        {
+                            Name: "Macbook Pro",
+                            Price: "10000",
+                            Image: "/assets/images/1.jpg"
+                        },
+                        {
+                            Name: "iPhone",
+                            Price: "10000",
+                            Image: "./assets/images/1.jpg"
+                        }
+                    ]
+                },
+                {
+                    Name: "Home Appliances",
+                    Caption: "Say no to manual home labour!",
+                    contentPosition: "middle",
+                    Category: "HOME",
+                    Items: [
+                        {
+                            Name: "Washing Machine WX9102",
+                            Price: "10000",
+                            Image: "./assets/images/1.jpg"
+                        },
+                        {
+                            Name: "Learus Vacuum Cleaner",
+                            Price: "10000",
+                            
+                            Image: "./assets/images/1.jpg"
+                        }
+                    ]
+                },
+                {
+                    Name: "Decoratives",
+                    Caption: "Give style and color to your living room!",
+                    contentPosition: "right",
+                    Category: "DEC",
+                    Items: [
+                        {
+                            Name: "Living Room Lamp",
+                            Price: "10000",
+                            Image: "https://source.unsplash.com/featured/?lamp"
+                        },
+                        {
+                            Name: "Floral Vase",
+                            Price: "10000",
+                            Image: "https://source.unsplash.com/featured/?vase"
+                        }
+                    ]
+                }
+            ]
         }
+        
 
-       
     }
 
-    toggleAutoPlay() {
-        this.setState({
-            autoPlay: !this.state.autoPlay
-        })
-    }
 
-    
-
-    toggleNavButtonsAlwaysInvisible() {
-        this.setState({
-            navButtonsAlwaysInvisible: !this.state.navButtonsAlwaysInvisible
-        })
-    }
-
-    
+  handleChange = (event) => {
+    this.items=this.state.newItems.filter(item=>item.Category==event.target.value);
+    this.setState({items:this.items,category:event.target.value});
+  };
 
     render() {
         return (
             <div style={{ marginTop: "50px", color: "#494949" }}>
-                <h2><FormControlLabel
-                    control={
-                        <Checkbox onChange={this.toggleAutoPlay} checked={this.state.autoPlay} value="Filter"
-                            color="primary" />
-                    }
-                    label="Auto-play"
-                /></h2>
+                <h2>
+                    <InputLabel id="demo-simple-select-label">category</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={this.state.category}
+                        onChange={this.handleChange}
+                    >
+                        <MenuItem value={'EC'}>Electronics</MenuItem>
+                        <MenuItem value={'HOME'}>Home Appliances</MenuItem>
+                        <MenuItem value={'DEC'}>Decoratives</MenuItem>
+                    </Select>
+                </h2>
 
                 <Carousel
                     className="Example"
@@ -189,27 +193,13 @@ class CarouselSlider extends React.Component {
                     timeout={this.state.timeout}
                     navButtonsAlwaysVisible={this.state.navButtonsAlwaysVisible}
                     navButtonsAlwaysInvisible={this.state.navButtonsAlwaysInvisible}
-                    next={(now, previous) => console.log(`Next User Callback: Now displaying child${now}. Previously displayed child${previous}`)}
-                    prev={(now, previous) => console.log(`Prev User Callback: Now displaying child${now}. Previously displayed child${previous}`)}
-                    onChange={(now, previous) => console.log(`OnChange User Callback: Now displaying child${now}. Previously displayed child${previous}`)}
                 >
                     {
-                        items.map((item, index) => {
+                        this.state.items.map((item, index) => {
                             return <Banner item={item} key={index} contentPosition={item.contentPosition} />
                         })
                     }
                 </Carousel>
-
-
-               
-                
-
-                
-
-                
-
-                
-
             </div>
 
         )
