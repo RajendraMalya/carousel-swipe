@@ -1,81 +1,219 @@
-import React from "react";
-import { useSwipeable } from "react-swipeable";
+import React from 'react';
+import Carousel from "react-material-ui-carousel";
+import './style/Example.scss';
 import {
-  Wrapper,
-  CarouselContainer,
-  CarouselSlot,
-  SlideButton,
-  PREV,
-  NEXT
-} from "./components";
+    Card,
+    CardContent,
+    CardMedia,
+    Typography,
+    Grid,
+    Button,
+    Checkbox,
+    FormControlLabel,
+} from '@material-ui/core';
 
-const getOrder = ({ index, pos, numItems }) => {
-  return index - pos < 0 ? numItems - Math.abs(index - pos) : index - pos;
-};
-const initialState = { pos: 0, sliding: false, dir: NEXT };
+function Banner(props) {
+    if (props.newProp) console.log(props.newProp)
+    const contentPosition = props.contentPosition ? props.contentPosition : "left"
+    const totalItems = props.length ? props.length : 3;
+    const mediaLength = totalItems - 1;
 
-const Carousel = props => {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-  const numItems = 0;
-  const slide = dir => {
-    dispatch({ type: dir, numItems });
-    setTimeout(() => {
-      dispatch({ type: "stopSliding" });
-    }, 50);
-  };
-  const handlers = useSwipeable({
-    onSwipedLeft: () => slide(NEXT),
-    onSwipedRight: () => slide(PREV),
-    preventDefaultTouchmoveEvent: true,
-    trackMouse: true
-  });
-  return (
-    <div {...handlers}>
-      <Wrapper>
-        <CarouselContainer dir={state.dir} sliding={state.sliding}>
-          {React.Children.map(props.children, (child, index) => (
-            <CarouselSlot
-              key={index}
-              order={getOrder({ index: index, pos: state.pos, numItems })}
-            >
-              {child}
-            </CarouselSlot>
-          ))}
-        </CarouselContainer>
-      </Wrapper>
-      <SlideButton onClick={() => slide(PREV)} float="left">
-        Prev
-      </SlideButton>
-      <SlideButton onClick={() => slide(NEXT)} float="right">
-        Next
-      </SlideButton>
-    </div>
-  );
-};
+    let items = [];
+    const content = (
+        <Grid item xs={12 / totalItems} key="content">
+            <CardContent className="Content">
+                <Typography className="Title">
+                    {props.item.Name}
+                </Typography>
 
-function reducer(state, { type, numItems }) {
-  switch (type) {
-    case "reset":
-      return initialState;
-    case PREV:
-      return {
-        ...state,
-        dir: PREV,
-        sliding: true,
-        pos: state.pos === 0 ? numItems - 1 : state.pos - 1
-      };
-    case NEXT:
-      return {
-        ...state,
-        dir: NEXT,
-        sliding: true,
-        pos: state.pos === numItems - 1 ? 0 : state.pos + 1
-      };
-    case "stopSliding":
-      return { ...state, sliding: false };
-    default:
-      return state;
-  }
+                <Typography className="Caption">
+                    {props.item.Caption}
+                </Typography>
+
+                <Button variant="outlined" className="ViewButton">
+                    View Now
+                </Button>
+            </CardContent>
+        </Grid>
+    )
+
+
+    for (let i = 0; i < mediaLength; i++) {
+        const item = props.item.Items[i];
+
+        const media = (
+            <Grid item xs={12 / totalItems} key={item.Name}>
+                <CardMedia
+                    className="Media"
+                    image={item.Image}
+                    title={item.Name}
+                >
+                    <Typography className="MediaCaption">
+                        {item.name}
+                    </Typography>
+                </CardMedia>
+
+            </Grid>
+        )
+
+        items.push(media);
+    }
+
+    if (contentPosition === "left") {
+        items.unshift(content);
+    } else if (contentPosition === "right") {
+        items.push(content);
+    } else if (contentPosition === "middle") {
+        items.splice(items.length / 2, 0, content);
+    }
+
+    return (
+        <Card raised className="Banner">
+            <Grid container spacing={0} className="BannerGrid">
+                {items}
+            </Grid>
+        </Card>
+    )
 }
 
-export default Carousel;
+const items = [
+    {
+        Name: "Electronics",
+        Caption: "Electrify your friends!",
+        contentPosition: "left",
+        Items: [
+            {
+                Name: "Macbook Pro",
+                Price:"10000",
+                Category:"EC",
+                Image: "./assets/images/1.jpg"
+            },
+            {
+                Name: "iPhone",
+                Price:"10000",
+                Category:"EC",
+                Image: "./assets/images/1.jpg"
+            }
+        ]
+    },
+    {
+        Name: "Home Appliances",
+        Caption: "Say no to manual home labour!",
+        contentPosition: "middle",
+        Items: [
+            {
+                Name: "Washing Machine WX9102",
+                Price:"10000",
+                Category:"EC",
+                Image: "./assets/images/1.jpg"
+            },
+            {
+                Name: "Learus Vacuum Cleaner",
+                Price:"10000",
+                Category:"EC",
+                Image: "./assets/images/1.jpg"
+            }
+        ]
+    },
+    {
+        Name: "Decoratives",
+        Caption: "Give style and color to your living room!",
+        contentPosition: "right",
+        Items: [
+            {
+                Name: "Living Room Lamp",
+                Price:"10000",
+                Category:"EC",
+                Image: "https://source.unsplash.com/featured/?lamp"
+            },
+            {
+                Name: "Floral Vase",
+                Price:"10000",
+                Category:"EC",
+                Image: "https://source.unsplash.com/featured/?vase"
+            }
+        ]
+    }
+]
+
+class CarouselSlider extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            autoPlay: false,
+            timer: 0,
+            animation: "fade",
+            indicators: true,
+            timeout: 0,
+            navButtonsAlwaysVisible: false,
+            navButtonsAlwaysInvisible: false
+        }
+
+       
+    }
+
+    toggleAutoPlay() {
+        this.setState({
+            autoPlay: !this.state.autoPlay
+        })
+    }
+
+    
+
+    toggleNavButtonsAlwaysInvisible() {
+        this.setState({
+            navButtonsAlwaysInvisible: !this.state.navButtonsAlwaysInvisible
+        })
+    }
+
+    
+
+    render() {
+        return (
+            <div style={{ marginTop: "50px", color: "#494949" }}>
+                <h2><FormControlLabel
+                    control={
+                        <Checkbox onChange={this.toggleAutoPlay} checked={this.state.autoPlay} value="Filter"
+                            color="primary" />
+                    }
+                    label="Auto-play"
+                /></h2>
+
+                <Carousel
+                    className="Example"
+                    autoPlay={this.state.autoPlay}
+                    timer={this.state.timer}
+                    animation={this.state.animation}
+                    indicators={this.state.indicators}
+                    timeout={this.state.timeout}
+                    navButtonsAlwaysVisible={this.state.navButtonsAlwaysVisible}
+                    navButtonsAlwaysInvisible={this.state.navButtonsAlwaysInvisible}
+                    next={(now, previous) => console.log(`Next User Callback: Now displaying child${now}. Previously displayed child${previous}`)}
+                    prev={(now, previous) => console.log(`Prev User Callback: Now displaying child${now}. Previously displayed child${previous}`)}
+                    onChange={(now, previous) => console.log(`OnChange User Callback: Now displaying child${now}. Previously displayed child${previous}`)}
+                >
+                    {
+                        items.map((item, index) => {
+                            return <Banner item={item} key={index} contentPosition={item.contentPosition} />
+                        })
+                    }
+                </Carousel>
+
+
+               
+                
+
+                
+
+                
+
+                
+
+            </div>
+
+        )
+    }
+}
+
+export default CarouselSlider;

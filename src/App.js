@@ -1,31 +1,14 @@
-import React from "react";
-import { Item, AppContainer} from "./components";
-import Carousel from "./Carousel";
-import image1 from "./assets/images/1.jpg"
+import React from 'react';
+import Carousel from './Carousel'
 
-function App() {
-  return (
-    <div style={{marginLeft: '153px'}}>
-    <AppContainer>
-      
-      <Carousel style={{margin:'0px 150px'}} title="Carousel">
-        <Item img={image1} />
-        <Item img={image1} />
-        <Item img={image1} />
-        <Item img={image1} />
-
-        <Item img={image1} />
-        <Item img={image1} />
-        <Item img={image1} />
-        <Item img={image1} />
-      </Carousel>
-      
-    </AppContainer>
+const App = () => (
+    <div style={{padding: "40px 100px", backgroundColor: "#ebebeb"}}>
+        <h1 style={{color: "#494949"}}>Carousel</h1>
+        <p style={{marginBottom: "30px"}}>
+        </p>
+        
+        <Carousel/>
     </div>
-  );
-}
-
-
-
+);
 
 export default App;
