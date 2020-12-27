@@ -27,10 +27,6 @@ function Banner(props) {
                 <Typography className="Title">
                     {props.item.Name}
                 </Typography>
-
-                <Typography className="Caption">
-                    {props.item.Caption}
-                </Typography>
             </CardContent>
         </Grid>
     )
@@ -44,7 +40,6 @@ function Banner(props) {
                 <CardMedia
 
                     className="Media"
-                    image={item.Image}
                     title={item.Name}
                 >
                     <CardContent className="Content">
@@ -76,7 +71,6 @@ function Banner(props) {
     } else if (contentPosition === "right") {
         items.push(content);
 
-
         //this will apply when item->contentPosition->right
     } else if (contentPosition === "middle") {
         items.splice(items.length / 2, 0, content);
@@ -104,8 +98,6 @@ function CarouselSlider() {
     }, [])
 
 
-
-
     const handleChange = (event) => {
         const allitems = items;
         if (event.target && event.target.value === "") {
@@ -115,6 +107,7 @@ function CarouselSlider() {
         }
         setCategory(event.target.value);
     };
+
 
 
     return (
