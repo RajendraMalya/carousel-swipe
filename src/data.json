@@ -7,7 +7,7 @@
             {
                 "Name": "Macbook Pro",
                 "Price": "10000",
-                "Image": "/assets/images/1.jpg"
+                "Image": "./assets/images/1.jpg"
             },
             {
                 "Name": "iPhone",
@@ -29,7 +29,6 @@
             {
                 "Name": "Learus Vacuum Cleaner",
                 "Price": "10000",
-
                 "Image": "./assets/images/1.jpg"
             }
         ]
