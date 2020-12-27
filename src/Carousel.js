@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from "react-material-ui-carousel";
-import './style/Example.scss';
+import { useState, useEffect } from 'react'
 import {
     Card,
     CardContent,
@@ -11,8 +11,8 @@ import {
     Select,
     MenuItem
 } from '@material-ui/core';
-
-import data from './data.json';
+import './style/Example.scss';
+import jsonData from './data.json';
 
 function Banner(props) {
     if (props.newProp) console.log(props.newProp)
@@ -38,6 +38,7 @@ function Banner(props) {
         const media = (
             <Grid item xs={12 / totalItems} key={item.Name}>
                 <CardMedia
+
                     className="Media"
                     title={item.Name}
                 >
@@ -48,6 +49,10 @@ function Banner(props) {
 
                         <Typography className="Caption">
                             {item.price}
+                        </Typography>
+
+                        <Typography>
+                            {item.Image}
                         </Typography>
 
                     </CardContent>
@@ -66,7 +71,6 @@ function Banner(props) {
     } else if (contentPosition === "right") {
         items.push(content);
 
-        
         //this will apply when item->contentPosition->right
     } else if (contentPosition === "middle") {
         items.splice(items.length / 2, 0, content);
@@ -82,65 +86,63 @@ function Banner(props) {
 }
 
 
+function CarouselSlider() {
+
+    const [items, setItems] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [newItems, setnewItems] = useState([]);
+    useEffect(() => {
+        console.log(jsonData)
+        setItems(jsonData);
+        setnewItems(jsonData);
+    }, [])
 
 
-
-class CarouselSlider extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            category: null,
-            items:data
-        }
-        this.newItems = this.state.items;
-    }
-
-
-    handleChange = (event) => {
-        const allitems = this.state.items;
+    const handleChange = (event) => {
+        const allitems = items;
         if (event.target && event.target.value === "") {
-            this.newItems = allitems;
+            setnewItems(allitems);
         } else {
-            this.newItems = allitems.filter(item => item.Category === event.target.value);
+            setnewItems(allitems.filter(item => item.Category === event.target.value));
         }
-        this.setState({ category: event.target.value });
+        setCategory(event.target.value);
     };
 
-    render() {
-        this.newItems1 = this.state.items;
-        return (
-            <div style={{ marginTop: "50px", color: "#494949" }}>
-                <h2>
-                    <InputLabel id="demo-simple-select-label">category</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={this.state.category}
-                        onChange={this.handleChange}>
-                        <MenuItem value=""><em>ALL</em></MenuItem>
-                        <MenuItem value={'EC'}>Electronics</MenuItem>
-                        <MenuItem value={'HOME'}>Home Appliances</MenuItem>
-                        <MenuItem value={'DEC'}>Decoratives</MenuItem>
-                    </Select>
-                </h2>
 
-                <Carousel
-                    timer={0}
-                    timeout={0}
-                    navButtonsAlwaysVisible={false}
-                    navButtonsAlwaysInvisible={false}>
-                    {
-                        this.newItems.map((item, index) => {
-                            return <Banner item={item} key={index} contentPosition={item.contentPosition} />
-                        })
 
-                    }
-                </Carousel>
-            </div>
+    return (
+        <div style={{ marginTop: "50px", color: "#494949" }}>
+            <h2>
+                <InputLabel id="demo-simple-select-label">category</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={category}
+                    onChange={handleChange}>
+                    <MenuItem value=""><em>ALL</em></MenuItem>
+                    <MenuItem value={'EC'}>Electronics</MenuItem>
+                    <MenuItem value={'HOME'}>Home Appliances</MenuItem>
+                    <MenuItem value={'DEC'}>Decoratives</MenuItem>
+                </Select>
+            </h2>
 
-        )
-    }
+            <Carousel
+                autoPlay={false}
+                timer={0}
+                timeout={0}
+                navButtonsAlwaysVisible={false}
+                navButtonsAlwaysInvisible={false}>
+                {
+                    newItems.map((item, index) => {
+                        return <Banner item={item} key={index} contentPosition={item.contentPosition} />
+                    })
+
+                }
+            </Carousel>
+        </div>
+
+    )
+
 }
 
 export default CarouselSlider;

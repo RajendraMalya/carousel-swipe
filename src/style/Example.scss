@@ -5,6 +5,11 @@
 
     .Media
     {
+        background-color: white;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+
 
         .MediaCaption
         {
@@ -74,7 +79,7 @@
             font-size: 30px;
             font-weight: 500;
         }
-
+        
         .Caption
         {
             margin-top: 10px;
