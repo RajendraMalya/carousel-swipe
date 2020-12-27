@@ -14,6 +14,7 @@ import {
 import '../style/Example.scss';
 import {jsonData} from '../data.js';
 
+
 function Banner(props) {
     if (props.newProp) console.log(props.newProp)
     const contentPosition = props.contentPosition ? props.contentPosition : "left"
@@ -29,6 +30,7 @@ function Banner(props) {
                 </Typography><br></br><br></br>
                 <Typography className="media">
                 <img src={props.item.Image} alt="recipe thumbnail"  style={{marginTop:25}} className="image"/>
+
                 </Typography>
             </CardContent>
         </Grid>
@@ -37,7 +39,6 @@ function Banner(props) {
 
     for (let i = 0; i < mediaLength; i++) {
         const item = props.item.Items[i];
-
         const media = (
             <Grid item xs={12 / totalItems} key={item.Name}>
                 <CardMedia
@@ -45,7 +46,6 @@ function Banner(props) {
                     className="Media"
                     title={item.Name}
                 >
-                     
                     <CardContent className="Content">
                         <Typography className="Title">
                             {item.Name ? item.Name:""}
@@ -96,6 +96,7 @@ function CarouselSlider() {
     const [category, setCategory] = useState([]);
     const [newItems, setnewItems] = useState([]);
     const [navButton, setNavButton] = useState(false);
+
     useEffect(() => {
         console.log(jsonData)
         setItems(jsonData);
@@ -111,7 +112,7 @@ function CarouselSlider() {
         } else {
             setnewItems(allitems.filter(item => item.Category === event.target.value));
             setNavButton(true);
-        }
+         }
         setCategory(event.target.value);
     };
 
