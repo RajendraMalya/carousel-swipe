@@ -11,8 +11,8 @@ import {
     Select,
     MenuItem
 } from '@material-ui/core';
-import './style/Example.scss';
-import jsonData from './data.json';
+import '../style/Example.scss';
+import jsonData from '../data.json';
 
 function Banner(props) {
     if (props.newProp) console.log(props.newProp)
