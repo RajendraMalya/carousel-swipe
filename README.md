@@ -5,9 +5,9 @@ React-17
 react-hooks
 
 **how to use**
-git clone https://github.com/RajendraMalya/carousel-swipe.git
-npm install
-npm start ###
+## git clone https://github.com/RajendraMalya/carousel-swipe.git
+## npm install
+## npm start 
 
 
 
