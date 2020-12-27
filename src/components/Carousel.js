@@ -12,7 +12,8 @@ import {
     MenuItem
 } from '@material-ui/core';
 import '../style/Example.scss';
-import jsonData from '../data.json';
+import {jsonData} from '../data.js';
+
 
 function Banner(props) {
     if (props.newProp) console.log(props.newProp)
@@ -26,6 +27,10 @@ function Banner(props) {
             <CardContent className="Content">
                 <Typography className="Title">
                     {props.item.Name}
+                </Typography><br></br><br></br>
+                <Typography className="media">
+                <img src={props.item.Image} alt="recipe thumbnail"  style={{marginTop:25}} className="image"/>
+
                 </Typography>
             </CardContent>
         </Grid>
@@ -34,7 +39,6 @@ function Banner(props) {
 
     for (let i = 0; i < mediaLength; i++) {
         const item = props.item.Items[i];
-
         const media = (
             <Grid item xs={12 / totalItems} key={item.Name}>
                 <CardMedia
@@ -44,15 +48,15 @@ function Banner(props) {
                 >
                     <CardContent className="Content">
                         <Typography className="Title">
-                            {item.Name}
+                            {item.Name ? item.Name:""}
                         </Typography>
 
                         <Typography className="Caption">
-                            {item.price}
+                           RS:  {item.Price?item.Price:0}
                         </Typography>
 
                         <Typography>
-                            {item.Image}
+                        <img src={item.Image} alt="recipe thumbnail"  className="image"/>
                         </Typography>
 
                     </CardContent>
@@ -91,6 +95,8 @@ function CarouselSlider() {
     const [items, setItems] = useState([]);
     const [category, setCategory] = useState([]);
     const [newItems, setnewItems] = useState([]);
+    const [navButton, setNavButton] = useState(false);
+
     useEffect(() => {
         console.log(jsonData)
         setItems(jsonData);
@@ -102,9 +108,11 @@ function CarouselSlider() {
         const allitems = items;
         if (event.target && event.target.value === "") {
             setnewItems(allitems);
+            setNavButton(false);
         } else {
             setnewItems(allitems.filter(item => item.Category === event.target.value));
-        }
+            setNavButton(true);
+         }
         setCategory(event.target.value);
     };
 
@@ -131,7 +139,7 @@ function CarouselSlider() {
                 timer={0}
                 timeout={0}
                 navButtonsAlwaysVisible={false}
-                navButtonsAlwaysInvisible={false}>
+                navButtonsAlwaysInvisible={navButton}>
                 {
                     newItems.map((item, index) => {
                         return <Banner item={item} key={index} contentPosition={item.contentPosition} />
